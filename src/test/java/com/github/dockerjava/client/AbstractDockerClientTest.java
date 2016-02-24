@@ -1,15 +1,17 @@
 package com.github.dockerjava.client;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.lang.reflect.Method;
-import java.net.DatagramSocket;
-import java.net.ServerSocket;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.command.InspectContainerResponse;
+import com.github.dockerjava.api.command.InspectContainerResponse.Mount;
+import com.github.dockerjava.api.exception.DockerException;
+import com.github.dockerjava.api.model.Frame;
+import com.github.dockerjava.api.model.Network;
+import com.github.dockerjava.api.model.Volume;
+import com.github.dockerjava.core.DockerClientBuilder;
+import com.github.dockerjava.core.DockerClientConfig;
+import com.github.dockerjava.core.TestDockerCmdExecFactory;
+import com.github.dockerjava.core.command.BuildImageResultCallback;
+import com.github.dockerjava.core.command.LogContainerResultCallback;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang.StringUtils;
@@ -20,20 +22,15 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.ITestResult;
 
-import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.api.command.InspectContainerResponse;
-import com.github.dockerjava.api.command.InspectContainerResponse.Mount;
-import com.github.dockerjava.api.exception.DockerException;
-import com.github.dockerjava.api.exception.NotFoundException;
-import com.github.dockerjava.api.model.Frame;
-import com.github.dockerjava.api.model.Network;
-import com.github.dockerjava.api.model.Volume;
-import com.github.dockerjava.core.DockerClientBuilder;
-import com.github.dockerjava.core.DockerClientConfig;
-import com.github.dockerjava.core.TestDockerCmdExecFactory;
-import com.github.dockerjava.core.command.BuildImageResultCallback;
-import com.github.dockerjava.core.command.LogContainerResultCallback;
-import com.github.dockerjava.core.command.PullImageResultCallback;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.lang.reflect.Method;
+import java.net.DatagramSocket;
+import java.net.ServerSocket;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractDockerClientTest extends Assert {
 
@@ -56,13 +53,13 @@ public abstract class AbstractDockerClientTest extends Assert {
         LOG.info("Connecting to Docker server");
         dockerClient = DockerClientBuilder.getInstance(config()).withDockerCmdExecFactory(dockerCmdExecFactory).build();
 
-        try {
-            dockerClient.inspectImageCmd("busybox").exec();
-        } catch (NotFoundException e) {
-            LOG.info("Pulling image 'busybox'");
-            // need to block until image is pulled completely
-            dockerClient.pullImageCmd("busybox").withTag("latest").exec(new PullImageResultCallback()).awaitSuccess();
-        }
+//        try {
+//            dockerClient.inspectImageCmd("busybox").exec();
+//        } catch (NotFoundException e) {
+//            LOG.info("Pulling image 'busybox'");
+//            // need to block until image is pulled completely
+//            dockerClient.pullImageCmd("busybox").withTag("latest").exec(new PullImageResultCallback()).awaitSuccess();
+//        }
 
         assertNotNull(dockerClient);
         LOG.info("======================= END OF BEFORETEST =======================\n\n");

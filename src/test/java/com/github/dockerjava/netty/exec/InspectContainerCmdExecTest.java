@@ -1,27 +1,20 @@
 package com.github.dockerjava.netty.exec;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.isEmptyString;
-import static org.hamcrest.Matchers.not;
-
-import java.lang.reflect.Method;
-import java.security.SecureRandom;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
-
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.command.InspectContainerResponse;
 import com.github.dockerjava.api.exception.DockerException;
 import com.github.dockerjava.api.exception.NotFoundException;
 import com.github.dockerjava.netty.AbstractNettyDockerClientTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.ITestResult;
+import org.testng.annotations.*;
+
+import java.lang.reflect.Method;
+import java.security.SecureRandom;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 @Test(groups = "integration")
 public class InspectContainerCmdExecTest extends AbstractNettyDockerClientTest {
@@ -67,7 +60,8 @@ public class InspectContainerCmdExecTest extends AbstractNettyDockerClientTest {
     public void inspectNonExistingContainer() throws DockerException {
 
         try {
-            dockerClient.inspectContainerCmd("non-existing").exec();
+            InspectContainerResponse resp = dockerClient.inspectContainerCmd("a59e89574f38").exec();
+            System.out.println(resp);
             fail("expected NotFoundException");
         } catch (NotFoundException e) {
         }

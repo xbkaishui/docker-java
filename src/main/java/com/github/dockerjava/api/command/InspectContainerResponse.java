@@ -1,25 +1,16 @@
 package com.github.dockerjava.api.command;
 
-import java.util.List;
-
-import javax.annotation.CheckForNull;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.dockerjava.api.model.*;
+import com.github.dockerjava.core.RemoteApiVersion;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.dockerjava.api.model.ContainerConfig;
-import com.github.dockerjava.api.model.HostConfig;
-import com.github.dockerjava.api.model.NetworkSettings;
-import com.github.dockerjava.api.model.Volume;
-import com.github.dockerjava.api.model.VolumeBind;
-import com.github.dockerjava.api.model.VolumeBinds;
-import com.github.dockerjava.api.model.VolumeRW;
-import com.github.dockerjava.api.model.VolumesRW;
-import com.github.dockerjava.core.RemoteApiVersion;
+import javax.annotation.CheckForNull;
+import java.util.List;
 
 /**
  *
@@ -97,6 +88,17 @@ public class InspectContainerResponse {
 
     @JsonProperty("Mounts")
     private List<Mount> mounts;
+
+    @JsonProperty("Node")
+    private SwarmNode node;
+
+    public SwarmNode getNode() {
+        return node;
+    }
+
+    public void setNode(SwarmNode node) {
+        this.node = node;
+    }
 
     public String getId() {
         return id;
